@@ -7,8 +7,8 @@ use Mix.Config
 # Run `mix help test` for more information.
 config :elixir_blog, ElixirBlog.Repo,
   username: "postgres",
-  password: "postgres",
-  database: "elixir_blog_test#{System.get_env("MIX_TEST_PARTITION")}",
+  password: "",
+  database: "elixir_blog",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 

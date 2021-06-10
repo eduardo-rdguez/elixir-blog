@@ -3,8 +3,8 @@ use Mix.Config
 # Configure your database
 config :elixir_blog, ElixirBlog.Repo,
   username: "postgres",
-  password: "postgres",
-  database: "elixir_blog_dev",
+  password: "",
+  database: "elixir_blog",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

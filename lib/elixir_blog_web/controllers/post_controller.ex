@@ -1,6 +1,7 @@
 defmodule ElixirBlogWeb.PostController do
   use ElixirBlogWeb, :controller
 
+  alias ElixirBlog.Repo
   alias ElixirBlog.Posts
   alias ElixirBlog.Posts.Post
   alias ElixirBlog.Comments.Comment
@@ -28,8 +29,13 @@ defmodule ElixirBlogWeb.PostController do
   end
 
   def show(conn, %{"id" => id}) do
-    post = Posts.get_post!(id)
-    render(conn, "show.html", post: post)
+    post =
+      id
+      |> Posts.get_post!()
+      |> Repo.preload([:comments])
+
+    changeset = Comment.changeset(%Comment{}, %{})
+    render(conn, "show.html", post: post, changeset: changeset)
   end
 
   def edit(conn, %{"id" => id}) do

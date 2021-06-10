@@ -7,6 +7,7 @@ defmodule ElixirBlog.Posts do
   alias ElixirBlog.Repo
 
   alias ElixirBlog.Posts.Post
+  alias ElixirBlog.Comments
 
   @doc """
   Returns the list of posts.
@@ -100,5 +101,23 @@ defmodule ElixirBlog.Posts do
   """
   def change_post(%Post{} = post, attrs \\ %{}) do
     Post.changeset(post, attrs)
+  end
+
+  @doc """
+  Add a comment.
+
+  ## Examples
+
+      iex> add_comment(post_id, %{field: new_value})
+      {:ok, %Comment{}}
+
+      iex> add_comment(post_id, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def add_comment(post_id, comment_params) do
+    comment_params
+      |> Map.put("post_id", post_id)
+      |> Comments.create_comment()
   end
 end

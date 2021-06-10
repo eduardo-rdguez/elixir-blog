@@ -3,6 +3,7 @@ defmodule ElixirBlogWeb.PostController do
 
   alias ElixirBlog.Posts
   alias ElixirBlog.Posts.Post
+  alias ElixirBlog.Comments.Comment
 
   def index(conn, _params) do
     posts = Posts.list_posts()
@@ -58,5 +59,22 @@ defmodule ElixirBlogWeb.PostController do
     conn
     |> put_flash(:info, "Post deleted successfully.")
     |> redirect(to: Routes.post_path(conn, :index))
+  end
+
+  def add_comment(conn, %{"comment" => comment_params, "post_id" => post_id}) do
+    post =
+      post_id
+      |> Posts.get_post!()
+      |> Repo.preload([:comments])
+
+    case Posts.add_comment(post_id, comment_params) do
+      {:ok, _comment} ->
+        conn
+        |> put_flash(:info, "Comment added successfully")
+        |> redirect(to: Routes.post_path(conn, :show, post))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "new.html", changeset: changeset)
+    end
   end
 end

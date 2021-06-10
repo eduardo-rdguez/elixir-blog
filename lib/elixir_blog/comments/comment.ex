@@ -5,7 +5,7 @@ defmodule ElixirBlog.Comments.Comment do
   schema "comments" do
     field :content, :string
     field :name, :string
-    field :post_id, :id
+    belongs_to(:post, Post)
 
     timestamps()
   end
@@ -13,7 +13,7 @@ defmodule ElixirBlog.Comments.Comment do
   @doc false
   def changeset(comment, attrs) do
     comment
-    |> cast(attrs, [:name, :content])
-    |> validate_required([:name, :content])
+    |> cast(attrs, [:name, :content, :post_id])
+    |> validate_required([:name, :content, :post_id])
   end
 end

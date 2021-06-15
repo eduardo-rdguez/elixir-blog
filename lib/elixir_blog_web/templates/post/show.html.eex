@@ -14,5 +14,8 @@
 
 </ul>
 
+<%= render ElixirBlogWeb.CommentView, "form.html", post: @post, changeset: @changeset, action: Routes.post_post_path(@conn, :add_comment, @post) %>
+<%= render ElixirBlogWeb.CommentView, "show.html", comments: @post.comments %>
+
 <span><%= link "Edit", to: Routes.post_path(@conn, :edit, @post) %></span>
 <span><%= link "Back", to: Routes.post_path(@conn, :index) %></span>
